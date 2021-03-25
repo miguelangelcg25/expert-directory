@@ -7,6 +7,7 @@ package com.traject.directory.service.impl;
 
 import com.traject.directory.model.User;
 import com.traject.directory.repository.UserRepository;
+import com.traject.directory.service.ShortenUrl;
 import com.traject.directory.service.UserService;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ShortenUrl shortenUrlService;
+
     @Override
     public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
@@ -30,12 +34,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users;
+        return userRepository.findAll();
     }
 
     @Override
     public User createUser(User user) {
+        if (user.getUrl() != null) {
+            user.setShortURL(shortenUrlService.shortenUrl(user.getUrl()));
+        }
         return userRepository.save(user);
     }
 

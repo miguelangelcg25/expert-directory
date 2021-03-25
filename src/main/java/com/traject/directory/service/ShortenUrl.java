@@ -5,22 +5,12 @@
  */
 package com.traject.directory.service;
 
-import com.traject.directory.model.User;
-import java.util.List;
-import java.util.Optional;
-
 /**
  *
  * @author miguelangel
  */
-public interface UserService {
+public interface ShortenUrl {
 
-    User createUser(User user);
-
-    List<User> findAllUsers();
-
-    Optional<User> findUserById(Long id);
-
-    User updateUser(User user);
+    String shortenUrl(String url);
 
 }
