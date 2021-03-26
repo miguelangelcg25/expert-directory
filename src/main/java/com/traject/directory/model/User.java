@@ -5,7 +5,10 @@
  */
 package com.traject.directory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -40,15 +43,28 @@ public class User {
     @Column(name = "short_url")
     private String shortURL;
 
-    @ManyToMany
-    @JoinTable(name = "user_topic", joinColumns = {
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_tag", joinColumns = {
         @JoinColumn(name = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "topic_id")})
-    private Set<Topic> topics;
+        @JoinColumn(name = "tag_id")})
+    private Set<Tag> tags;
 
     @ElementCollection
     @Column(name = "friend_id")
     @JoinTable(name = "user_friend")
+    @JsonIgnore
     private Set<Long> friends;
+
+    public void addTags(Set<Tag> t) {
+        tags.addAll(t);
+    }
+
+    @JsonProperty("friends")
+    public int friendsCount() {
+        if (friends == null) {
+            return 0;
+        }
+        return friends.size();
+    }
 
 }
