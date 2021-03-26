@@ -1,8 +1,4 @@
 spring:
-    datasource:
-        url: jdbc:mysql://localhost:3306/trajectdb
-        username: root
-        password: mcg02504
     jpa:
         hibernate:
             ddl-auto: create-drop

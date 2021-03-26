@@ -7,6 +7,7 @@ package com.traject.directory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,7 +54,7 @@ public class User {
     @Column(name = "friend_id")
     @JoinTable(name = "user_friend")
     @JsonIgnore
-    private Set<Long> friends;
+    private Set<Long> friends = new HashSet<>();
 
     public void addTags(Set<Tag> t) {
         tags.addAll(t);
@@ -65,6 +66,10 @@ public class User {
             return 0;
         }
         return friends.size();
+    }
+
+    public void addFriends(Long... id) {
+        friends.addAll(Set.of(id));
     }
 
 }
